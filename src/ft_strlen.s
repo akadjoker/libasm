@@ -9,3 +9,4 @@ s1:
 	cmp byte[rdi + rax], 0
 	jne s1
 	ret
+

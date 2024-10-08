@@ -3,16 +3,15 @@ extern ft_strlen
 extern ft_strcpy
 extern malloc
 
-
 section .text
 
 ft_strdup:
-	call	ft_strlen
-	inc		rax
-	push	rdi					;we have to push a 64 bit register in order to
-	mov		rdi, rax			;align the stack. If stack is misaligned and
-	call	malloc				;_malloc is called, there will be segfault as
-	mov		rdi, rax			;a result.
-	pop		rsi					;Here, we directly pop old RDI value which was
-	call	ft_strcpy			;pushed onto the stack in RSI register, as 2nd
-	ret							;parameter to _ft_strcpy
+    call ft_strlen             ; call ft_strlen para obter o size da string
+    inc rax                    ; Incrementa rax para incluir o terminador nulo
+    push rdi                   ; Armazena rdi na pilha para preservar o ponteiro original
+    mov rdi, rax               ; Passa o size da string (com o terminador) para rdi
+    call malloc                ; call malloc para alocar memória para a nova string
+    mov rdi, rax               ; Guarda o ponteiro retornado por malloc em rdi (destino da cópia)
+    pop rsi                    ; Restaura o valor original de rdi (ponteiro da string original) em rsi
+    call ft_strcpy              ; call ft_strcpy para copiar a string original para a nova memória
+    ret                        ; Retorna o ponteiro para a nova string
